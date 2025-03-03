@@ -17,7 +17,17 @@ public final class ConnectionManager {
     private static BlockingQueue<Connection> pool;  //Создаем очередь пул подключений к бд
 
     static {
+        loadDriver();
         initConnectionPool();
+
+    }
+
+    private static void loadDriver() {
+        try {
+            Class.forName("org.postgresql.Driver");
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     private static void initConnectionPool() {
@@ -41,7 +51,7 @@ public final class ConnectionManager {
             Обрабатываем, если вызванный метод имеет название close, тогда добавляем новый коннект(через прокси), иначе
             этот метод вызывается в реальном connection.
             Иными словами берем наш этот класс, находим где у нас класс Connection и проверяем все вызванные его методы,
-            если находим close то в пулл добавляем еще коннект, только через тот же прокси, иначе просто продолжаем*/
+            если находим close то в пул добавляем еще коннект, только через тот же прокси, иначе просто продолжаем*/
             var proxyConnection = (Connection) Proxy.newProxyInstance(ConnectionManager.class.getClassLoader(),
                     new Class[]{Connection.class},
                     ((proxy, method, args) -> method.getName().equals("close") ?
@@ -68,7 +78,8 @@ public final class ConnectionManager {
             return DriverManager.getConnection(
                     PropertiesUtil.get(URL_KEY),
                     PropertiesUtil.get(USERNAME_KEY),
-                    PropertiesUtil.get(PASSWORD_KEY));
+                    PropertiesUtil.get(PASSWORD_KEY)
+            );
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }

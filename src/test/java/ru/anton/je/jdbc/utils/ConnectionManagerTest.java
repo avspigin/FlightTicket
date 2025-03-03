@@ -13,7 +13,7 @@ class ConnectionManagerTest {
 
     @Test
     void testOpen() {
-        try (Connection connection = ConnectionManager.open()) {
+        try (Connection connection = ConnectionManager.get()) {
             assertNotNull(connection);
         } catch (SQLException e) {
             throw new RuntimeException(e);

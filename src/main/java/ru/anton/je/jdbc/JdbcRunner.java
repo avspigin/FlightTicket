@@ -1,29 +1,55 @@
 package ru.anton.je.jdbc;
 
-import ru.anton.je.jdbc.dao.TicketDao;
-import ru.anton.je.jdbc.entity.Ticket;
+import ru.anton.je.jdbc.dao.FlightDao;
+import ru.anton.je.jdbc.dao.UserDao;
+import ru.anton.je.jdbc.dto.CreateUserDto;
+import ru.anton.je.jdbc.entity.Gender;
+import ru.anton.je.jdbc.entity.Role;
+import ru.anton.je.jdbc.entity.User;
 import ru.anton.je.jdbc.utils.ConnectionManager;
 
-import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 public class JdbcRunner {
     public static void main(String[] args) throws SQLException {
-        TicketDao ticketDao = TicketDao.getInstance();
+
+        UserDao userDao = UserDao.getInstance();
+        var user = userDao.findByEmailAndPassword("afd@asf.sd", "asdf");
+        System.out.println(StandardCharsets.UTF_8.name());
+       /* UserDao userDao = UserDao.getInstance();
+        var userDto = CreateUserDto.builder()
+
+                .birthday("2002-11-04")
+                .email("afd@asf.sd")
+                .password("asdf")
+                .role("USER")
+                .gender("MALE")
+                .build();
+
+        System.out.println(userDto.getName() == null || userDto.getName().isEmpty());
+*/
+//        FlightDao flightDao = FlightDao.getInstance();
+//        System.out.println(flightDao.findById(2L));
+
+//        TicketDao ticketDao = TicketDao.getInstance();
+////        TicketFilter filter =  new TicketFilter(null, null, 50, 0);
+//        System.out.println(ticketDao.findAllByFlightId(2L));
+
 //        TicketDao.getInstance().save(new Ticket("21134", "Evgeniy", 5L, "1B", BigDecimal.TEN));
 //        System.out.println(TicketDao.getInstance().delete(56L));
 //        System.out.println(ticketDao.findById(15L).get());  //Тут get чтобы вместо Optional получить Ticket
 //        System.out.println(ticketDao.findAll());
-        Ticket ticket = ticketDao.findById(56L).get();
-        System.out.println(ticket);
-        ticket.setPassportNo("554488");
-        System.out.println(ticketDao.update(ticket));
-        System.out.println(ticketDao.findById(56L).get());
+//        Ticket ticket = ticketDao.findById(56L).get();
+//        System.out.println(ticket);
+//        ticket.setPassportNo("554488");
+//        System.out.println(ticketDao.update(ticket));
+//        System.out.println(ticketDao.findById(56L).get());
 
 
 
